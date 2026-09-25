@@ -37,11 +37,48 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(34,167,240,.5);bo
 #skillTestsBtn{background:linear-gradient(90deg,var(--accent),#b50d1d)}
 @media(max-width:560px){.top strong{font-size:17px}.brand{font-size:11px}}
 </style>
-</head>
+
+<style>
+/* V10 — visual fidelity pass based on the LORH design board */
+body{background:#050506}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:
+radial-gradient(circle at 12% 8%,rgba(225,16,37,.22),transparent 22%),
+radial-gradient(circle at 88% 22%,rgba(34,167,240,.18),transparent 25%),
+radial-gradient(circle at 65% 80%,rgba(244,180,0,.08),transparent 25%)}
+.app{position:relative}.app:before{content:"LORH";position:fixed;right:-28px;top:34%;font-family:Impact,"Arial Narrow",sans-serif;font-size:120px;letter-spacing:-.04em;color:rgba(255,255,255,.018);transform:rotate(90deg);pointer-events:none}
+.top{padding:4px 4px 2px}.top strong{font-family:Impact,"Arial Narrow",sans-serif;font-size:28px;font-style:italic;line-height:.9;text-shadow:3px 3px 0 rgba(225,16,37,.45)}.brand{font-size:12px}.sourceNote{font-weight:650}
+.hero{min-height:190px;border:2px solid #35353c;border-radius:4px;clip-path:polygon(0 0,97% 0,100% 14%,100% 100%,3% 100%,0 86%);background:
+linear-gradient(105deg,rgba(225,16,37,.24),transparent 33%),
+linear-gradient(145deg,#1a1a1e 0%,#070709 66%);box-shadow:8px 8px 0 rgba(225,16,37,.18),0 25px 65px rgba(0,0,0,.58)}
+.hero:after{content:"BUILD YOUR LEGACY";position:absolute;left:18px;bottom:8px;font-family:Impact,"Arial Narrow",sans-serif;font-style:italic;font-size:13px;letter-spacing:.2em;color:rgba(237,227,199,.20)}
+.hero h1{font-family:Impact,"Arial Narrow",sans-serif;text-transform:uppercase;font-style:italic;font-size:42px;letter-spacing:.02em;text-shadow:3px 3px 0 #67101a}
+.avatar{border-radius:8px;transform:rotate(-2deg);border:3px solid var(--gold);box-shadow:5px 5px 0 var(--accent),-3px -3px 0 rgba(34,167,240,.45);background:
+linear-gradient(150deg,transparent 0 35%,rgba(225,16,37,.2) 36% 39%,transparent 40%),
+radial-gradient(circle at 50% 30%,#151519 0 15%,#060608 16% 34%,#010102 35%)}
+.avatar:before{content:"♛";font-size:36px;text-shadow:2px 2px 0 #6d4c00}.avatar:after{width:82%;height:52%;background:#070709;border-radius:55% 55% 0 0;box-shadow:0 -15px 25px rgba(255,255,255,.04)}
+.ovr{border-radius:4px;transform:skew(-4deg);border:2px solid var(--gold);box-shadow:4px 4px 0 rgba(244,180,0,.20),inset 0 0 25px rgba(244,180,0,.08)}
+.ovr span{font-family:Impact,"Arial Narrow",sans-serif;font-size:34px}.level{font-size:13px;color:#fff}.level span:first-child{color:var(--gold)}
+.xp{height:15px;border-radius:2px;border:1px solid #3e3e45;background:#09090b;transform:skew(-8deg);padding:2px}.xp>div{border-radius:0;background:linear-gradient(90deg,var(--blue),#7ed7ff 55%,#fff);box-shadow:0 0 14px rgba(34,167,240,.75)}
+.grid{gap:14px}.card{position:relative;border-radius:4px;border:1px solid #36363c;clip-path:polygon(0 0,98% 0,100% 10px,100% 100%,0 100%);box-shadow:5px 5px 0 rgba(0,0,0,.35);background:
+linear-gradient(135deg,rgba(255,255,255,.035),transparent 24%),
+linear-gradient(160deg,#151518,#09090b 70%)}
+.card:before{content:"";position:absolute;left:0;top:0;width:72px;height:3px;background:var(--accent);box-shadow:76px 0 0 var(--blue),152px 0 0 var(--gold)}
+.card h2{font-size:23px;font-style:italic;letter-spacing:.055em;text-shadow:2px 2px 0 rgba(225,16,37,.35)}
+.btn{border-radius:3px;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px);font-family:Impact,"Arial Narrow",sans-serif;font-size:14px;font-style:italic;letter-spacing:.07em;border-left:2px solid rgba(255,255,255,.35);box-shadow:4px 4px 0 rgba(98,0,10,.55);transition:transform .12s ease,filter .12s ease}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 rgba(98,0,10,.55)}.btn.secondary{box-shadow:4px 4px 0 rgba(0,74,116,.55)}.btn.ghost{box-shadow:none}
+.rating{position:relative;border-radius:3px;padding:13px 11px;border-left:3px solid var(--accent);background:linear-gradient(110deg,#09090b,#141418)}.rating:nth-child(3n+2){border-left-color:var(--blue)}.rating:nth-child(3n+3){border-left-color:var(--gold)}.rating b{font-family:Impact,"Arial Narrow",sans-serif;font-size:30px;font-style:italic;text-shadow:2px 2px 0 #000}
+.badge{position:relative;border-radius:3px;clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 10px) 100%,10px 100%,0 calc(100% - 12px),0 12px);min-height:92px;display:flex;flex-direction:column;justify-content:center;background:radial-gradient(circle at 50% 20%,rgba(244,180,0,.14),transparent 45%),#0b0b0e}.badgeIcon{font-size:30px;filter:drop-shadow(0 0 7px rgba(244,180,0,.4))}.badge:not(.locked){border-color:var(--gold)}
+.nav{border-radius:4px;border:1px solid #45454d;padding:5px;box-shadow:0 0 0 2px rgba(0,0,0,.8),0 -10px 35px rgba(0,0,0,.6)}.nav button{border-radius:2px;text-transform:uppercase;font-family:Impact,"Arial Narrow",sans-serif;font-style:italic;letter-spacing:.06em}.nav button.active{clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);box-shadow:inset 0 -3px 0 rgba(255,255,255,.16)}
+.sheet{border-radius:4px 4px 0 0;border-top:3px solid var(--accent);box-shadow:0 -20px 80px rgba(0,0,0,.7)}input,select,textarea{border-radius:3px;background:#08080a;border-color:#3b3b42}
+.pill,.tag{border-radius:2px;text-transform:uppercase;font-weight:800;letter-spacing:.04em}
+#skillTestsBtn{background:linear-gradient(100deg,#e11025,#a50818 65%,#e11025);box-shadow:4px 4px 0 #650812,0 0 18px rgba(225,16,37,.18)}
+#skillTestsBtn:before{content:"⚡ "}
+@media(max-width:560px){.hero{min-height:150px}.hero h1{font-size:30px}.top strong{font-size:23px}.card h2{font-size:20px}.app:before{font-size:82px;opacity:.7}}
+</style></head>
 <body>
 <div class="toast" id="toast"></div>
 <div class="app">
-  <div class="top"><div><div class="brand">Last of the Real Hoopers</div><strong>REAL-LIFE BUILD</strong><div class="sourceNote">Build v9 · Street Build</div></div><button class="btn ghost" id="editProfileBtn">Edit Build</button></div>
+  <div class="top"><div><div class="brand">Last of the Real Hoopers</div><strong>REAL-LIFE BUILD</strong><div class="sourceNote">Build v10 · Legacy Visuals</div></div><button class="btn ghost" id="editProfileBtn">Edit Build</button></div>
 
   <section id="home" class="screen active">
     <div class="hero">
