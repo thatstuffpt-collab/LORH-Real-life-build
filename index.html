@@ -39,6 +39,13 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
 input:focus,select:focus,textarea:focus{outline:2px solid rgba(34,167,240,.5);border-color:var(--blue)}
 #skillTestsBtn{background:linear-gradient(90deg,var(--accent),#b50d1d)}
 @media(max-width:560px){.top strong{font-size:17px}.brand{font-size:11px}}
+
+/* V22.3 — mobile profile form cleanup */
+#profileModal .ratings{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+#profileModal .ratings>div{min-width:0;overflow:hidden}
+#profileModal input,#profileModal select{min-width:0;width:100%}
+#profileModal #profileHeightFeet,#profileModal #profileHeightInches{flex:1 1 0;min-width:0}
+@media(max-width:560px){#profileModal .ratings{grid-template-columns:1fr}#profileModal .ratings>div{width:100%}#profileModal .row{min-width:0}}
 </style>
 
 <style>
@@ -92,7 +99,7 @@ linear-gradient(160deg,#151518,#09090b 70%)}
 <body>
 <div class="toast" id="toast"></div>
 <div class="app">
-  <div class="top"><div><div class="brand">Last of the Real Hoopers</div><strong>REAL-LIFE BUILD</strong><div class="sourceNote">Build v22.2 · Strength Pathways Fix</div></div><button class="btn ghost" id="editProfileBtn">Edit Build</button></div>
+  <div class="top"><div><div class="brand">Last of the Real Hoopers</div><strong>REAL-LIFE BUILD</strong><div class="sourceNote">Build v22.3 · Profile Layout Fix</div></div><button class="btn ghost" id="editProfileBtn">Edit Build</button></div>
 
   <section id="home" class="screen active">
     <div class="hero">
