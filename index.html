@@ -99,7 +99,7 @@ linear-gradient(160deg,#151518,#09090b 70%)}
 <body>
 <div class="toast" id="toast"></div>
 <div class="app">
-  <div class="top"><div><div class="brand">Last of the Real Hoopers</div><strong>REAL-LIFE BUILD</strong><div class="sourceNote">Build v22.6 · Test Your Build Repair</div></div><button class="btn ghost" id="editProfileBtn">Edit Build</button></div>
+  <div class="top"><div><div class="brand">Last of the Real Hoopers</div><strong>REAL-LIFE BUILD</strong><div class="sourceNote">Build v23 · Build Identity</div></div><button class="btn ghost" id="editProfileBtn">Edit Build</button></div>
 
   <section id="home" class="screen active">
     <div class="hero">
@@ -115,7 +115,7 @@ linear-gradient(160deg,#151518,#09090b 70%)}
         <div class="card" style="margin-top:16px"><div class="row between"><h2>Badges</h2><span class="muted" id="badgeCount"></span></div><div class="badgeWrap" id="badges"></div></div>
       </div>
       <div>
-        <div class="card"><h2>Physical Ratings</h2><div class="ratings" id="ratings"></div><p class="muted" style="margin-top:12px">Ratings move from measurable progress, not just workout volume. XP rewards consistency; OVR rewards performance.</p></div>
+        <div class="card"><div class="row between"><div><h2>Build Identity</h2><p class="muted" id="identityStatus">Complete Build Challenges to reveal your identity.</p></div><span class="pill" id="identityEvidence">0/7 areas</span></div><div id="identityCard"></div></div><div class="card" style="margin-top:16px"><h2>Complete Hooper Profile</h2><h3 style="margin:12px 0 8px">Basketball</h3><div class="ratings" id="basketballRatings"></div><h3 style="margin:16px 0 8px">Athletic</h3><div class="ratings" id="athleticRatings"></div><p class="muted" style="margin-top:12px">XP shows the work. Official Build Challenges provide the evidence behind your ratings and Build identity.</p></div>
         <div class="card" style="margin-top:16px"><h2>Momentum</h2><div class="row between"><span>Workout streak</span><strong><span id="streak">0</span> days</strong></div><div class="row between" style="margin-top:10px"><span>Sessions</span><strong id="sessionCount">0</strong></div><div class="row between" style="margin-top:10px"><span>PRs</span><strong id="prCount">0</strong></div></div>
       </div>
     </div>
@@ -158,26 +158,29 @@ const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s
 function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),2200)}
 function xpForLevel(l){return 500+(l-1)*150}
 function calcOverall(){const r={strength:60,power:60,conditioning:60,mobility:60,shooting:60,ballHandling:60,...state.ratings};return Math.round(Object.values(r).reduce((a,b)=>a+b,0)/Object.values(r).length)}
-function earnedBuildName(){
- const prs=Object.entries(state.prs||{}); if(prs.length<2)return 'Build in Progress';
- const lower=['squat','deadlift','lunge','split squat','leg press','hip thrust','rdl'];
- const upper=['bench','press','push-up','pull-up','chin-up','row'];
- const explosive=['clean','jump','bound','sprint','slam','throw'];
- let score={lower:0,upper:0,explosive:0},count={lower:0,upper:0,explosive:0};
- prs.forEach(([name,p])=>{const n=name.toLowerCase(),v=p.e1rm||p.weight||0;if(lower.some(k=>n.includes(k))){score.lower+=v;count.lower++}if(upper.some(k=>n.includes(k))){score.upper+=v;count.upper++}if(explosive.some(k=>n.includes(k))){score.explosive+=Math.max(v,1);count.explosive++}});
- const cats=Object.keys(count).filter(k=>count[k]>0);
- if((state.ratings.shooting||60)>=66&&(state.ratings.ballHandling||60)>=66&&prs.length>=3)return 'Complete Hooper';
- if((state.ratings.shooting||60)>=66&&(state.ratings.ballHandling||60)>=63)return 'Shot-Creating Guard';
- if((state.ratings.ballHandling||60)>=66)return 'Playmaking Guard';
- if((state.ratings.shooting||60)>=66)return 'Sharpshooting Guard';
- if(prs.length>=5&&cats.length>=3)return 'Complete Athlete';
- if(count.explosive>=2&&count.lower>=1)return 'Explosive Power Athlete';
- if(count.lower>=2&&count.upper>=2)return 'Strength-Based Athlete';
- if(count.lower>=2)return 'Lower-Body Powerhouse';
- if(count.upper>=2)return 'Upper-Body Powerhouse';
- if(count.explosive>=2)return 'Quick-Twitch Athlete';
- return 'Developing Athlete';
+function buildEvidence(){
+ const groups=['Shooting','Ball Handling','Finishing','Strength','Power','Conditioning','Mobility'],done={};
+ groups.forEach(g=>{done[g]=skillTests.some(t=>t.group===g&&state.skillTests[t.id])});
+ return {done,count:Object.values(done).filter(Boolean).length,total:groups.length};
 }
+function buildIdentity(){
+ const e=buildEvidence(),r={strength:60,power:60,conditioning:60,mobility:60,shooting:60,ballHandling:60,finishing:60,...state.ratings};
+ if(e.count<3)return {name:'Identity Forming…',summary:'Complete official Build Challenges in at least 3 areas to reveal your first Build identity.',evidence:e};
+ const ranked=Object.entries(r).sort((a,b)=>b[1]-a[1]),top=ranked[0][0],second=ranked[1][0];
+ let name='Developing Two-Way Hooper';
+ if(r.shooting>=66&&r.ballHandling>=66)name='Shot-Creating Guard';
+ else if(r.ballHandling>=66&&r.finishing>=65)name='Playmaking Slasher';
+ else if(r.shooting>=66)name='Shot Maker';
+ else if(r.ballHandling>=66)name='Playmaking Guard';
+ else if(r.finishing>=66)name='Pressure Finisher';
+ else if(r.power>=66&&r.strength>=64)name='Power Athlete';
+ else if(r.conditioning>=66&&r.mobility>=64)name='High-Motor Athlete';
+ else if(top==='strength'||top==='power')name='Athletic Power Build';
+ else if(top==='conditioning'||top==='mobility')name='Movement Athlete';
+ const label={shooting:'shooting',ballHandling:'ball control',finishing:'finishing',strength:'strength',power:'explosiveness',conditioning:'conditioning',mobility:'mobility'};
+ return {name,summary:'Your strongest current evidence is '+label[top]+' with '+label[second]+' developing behind it. Retest to evolve the Build.',evidence:e};
+}
+function earnedBuildName(){return buildIdentity().name}
 function showCelebration(kicker,title,body,icon='🔥',ratingHtml='',impact=''){const m=$('#celebrateModal');if(!m)return toast(title);$('#celebrateKicker').textContent=kicker;$('#celebrateTitle').textContent=title;$('#celebrateBody').textContent=body;$('#celebrateIcon').textContent=icon;const r=$('#celebrateRating');r.innerHTML=ratingHtml;r.style.display=ratingHtml?'block':'none';$('#celebrateImpact').textContent=impact;openModal('#celebrateModal');if(['NEW PERSONAL BEST','ATTRIBUTE UPGRADE','BUILD EVOLUTION','LEVEL UP'].includes(kicker))setTimeout(burst,80)}
 function workoutsSinceTest(group){const map={'Shooting':['shooting'],'Ball Handling':['dribbling'],'Finishing':['finishing'],'Power':['workout'],'Conditioning':['workout'],'Mobility':['workout']};const tests=skillTests.filter(t=>t.group===group).map(t=>state.skillTests[t.id]).filter(Boolean);if(!tests.length)return 0;const last=Math.max(...tests.map(t=>new Date(t.date).getTime()));return [...(state.history||[]).map(h=>({...h,_kind:'workout'})),...(state.skillHistory||[]).map(h=>({...h,_kind:h.kind}))].filter(h=>new Date(h.date).getTime()>last&&(map[group]||[]).includes(h._kind)).length}
 function retestReady(){return ['Shooting','Ball Handling','Finishing'].map(group=>({group,count:workoutsSinceTest(group)})).filter(x=>x.count>=5)}
@@ -202,7 +205,8 @@ function awardXP(n){state.xp+=n;while(state.xp>=xpForLevel(state.level)){state.x
 function checkBadges(){const add=(id,name,icon)=>{if(!state.badges.some(b=>b.id===id))state.badges.push({id,name,icon})};if(state.history.length>=1)add('first','First Run','🏁');if(state.history.length>=5)add('five','Gym Regular','💪');if(Object.keys(state.prs).length>=3)add('prs3','PR Hunter','🏆');if(state.streak>=3)add('streak3','Locked In','🔥');if(state.streak>=7)add('streak7','No Days Wasted','⚡');if(state.ratings.strength>=70)add('str70','Built Different','🧱');if((state.ratings.shooting||60)>=65)add('shoot65','Shot Maker','🎯');if((state.ratings.ballHandling||60)>=65)add('handle65','On A String','🪀');if((state.skillHistory||[]).length>=10)add('skill10','Gym Rat','🐕')}
 function render(){
  $('#playerName').textContent=state.profile.name||'Player';$('#buildTitle').textContent=earnedBuildName();$('#level').textContent=state.level;$('#overall').textContent=calcOverall();$('#xpNow').textContent=state.xp;$('#xpNext').textContent=xpForLevel(state.level);$('#xpBar').style.width=Math.min(100,state.xp/xpForLevel(state.level)*100)+'%';
- $('#ratings').innerHTML=Object.entries(state.ratings).map(([k,v])=>`<div class="rating"><b>${v}</b><span>${k}</span></div>`).join('');
+ const identity=buildIdentity(),basketball=[['shooting','Shooting'],['ballHandling','Ball Handling'],['finishing','Finishing']],athletic=[['strength','Strength'],['power','Power'],['conditioning','Conditioning'],['mobility','Mobility']];
+ $('#identityStatus').textContent=identity.summary;$('#identityEvidence').textContent=identity.evidence.count+'/'+identity.evidence.total+' areas';$('#identityCard').innerHTML='<div class="trendCard" style="margin-top:12px"><span class="pill">'+(identity.evidence.count<3?'BUILD DISCOVERY':'EARNED IDENTITY')+'</span><h2 style="font-size:26px;margin:8px 0 4px">'+identity.name+'</h2><div class="meta">'+(identity.evidence.count<3?'Keep testing. LORH will reveal your identity from official evidence.':'Your identity evolves when official test evidence changes.')+'</div></div>';$('#basketballRatings').innerHTML=basketball.map(([k,n])=>'<div class="rating"><b>'+state.ratings[k]+'</b><span>'+n+'</span></div>').join('');$('#athleticRatings').innerHTML=athletic.map(([k,n])=>'<div class="rating"><b>'+state.ratings[k]+'</b><span>'+n+'</span></div>').join('');
  $('#streak').textContent=state.streak;$('#sessionCount').textContent=state.history.length;$('#prCount').textContent=Object.keys(state.prs).length;checkBadges();$('#badgeCount').textContent=`${state.badges.length} unlocked`;
  const badgeDefs=[['first','First Run','🏁'],['five','Gym Regular','💪'],['prs3','PR Hunter','🏆'],['streak3','Locked In','🔥'],['streak7','No Days Wasted','⚡'],['str70','Built Different','🧱'],['shoot65','Shot Maker','🎯'],['handle65','On A String','🪀'],['skill10','Gym Rat','🐕']];
  $('#badges').innerHTML=badgeDefs.map(([id,n,i])=>`<div class="badge ${state.badges.some(b=>b.id===id)?'':'locked'}"><div class="badgeIcon">${i}</div><div class="badgeName">${n}</div></div>`).join('');
