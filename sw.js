@@ -1,4 +1,4 @@
-const CACHE='lorh-build-v27-1';
+const CACHE='lorh-build-v27-2';
 const ASSETS=['./manifest.webmanifest','./lorh-logo.png','./lorh-hooper-full.png','./lorh-hooper-profile.png','./lorh-city-court-bg.png','./lorh-grunge-overlay.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
