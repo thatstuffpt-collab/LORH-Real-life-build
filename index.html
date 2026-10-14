@@ -132,7 +132,7 @@ body:before{opacity:.28;background-image:linear-gradient(rgba(0,0,0,.58),rgba(0,
     <div class="hero">
       <div class="avatar"></div>
       <div>
-        <div class="nameRow"><div><h1 id="playerName">Shandon</h1><div class="level">LEVEL <span id="level">1</span> · <span id="buildTitle">Build in Progress</span></div></div><div class="ovr"><div><span id="overall">60</span><small>OVR</small></div></div></div>
+        <div class="nameRow"><div><h1 id="playerName">Player</h1><div class="level">LEVEL <span id="level">1</span> · <span id="buildTitle">Build in Progress</span></div></div><div class="ovr"><div><span id="overall">60</span><small>OVR</small></div></div></div>
         <div class="xp"><div id="xpBar"></div></div><div class="xpMeta"><span><span id="xpNow">0</span> XP</span><span><span id="xpNext">500</span> to next level</span></div>
       </div>
     </div>
@@ -192,7 +192,7 @@ body:before{opacity:.28;background-image:linear-gradient(rgba(0,0,0,.58),rgba(0,
 const firebaseConfig={apiKey:"AIzaSyB-D3suG1kMcAFgnJoQ6x1tuBeCgVSJPCM",authDomain:"lorh-real-life-build.firebaseapp.com",projectId:"lorh-real-life-build",storageBucket:"lorh-real-life-build.firebasestorage.app",messagingSenderId:"828531726525",appId:"1:828531726525:web:6525c8016cdac8621b7fd4",measurementId:"G-V0FQQ09FC1"};
 let auth=null,db=null,cloudUser=null,cloudReady=false,cloudTimer=null,appBooted=false,firebaseReady=false;try{if(window.firebase){firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();firebaseReady=true}}catch(e){console.error('Firebase init failed',e)}
 const KEY='lorh-build-v1';
-const defaultState={profile:{name:'Shandon',title:'Comeback Guard',bodyweight:''},xp:0,level:1,ratings:{strength:60,power:60,conditioning:60,mobility:60,shooting:60,ballHandling:60,finishing:60},plan:null,history:[],prs:{},badges:[],lastWorkoutDate:null,streak:0};
+const defaultState={profile:{name:'Player',title:'',bodyweight:''},xp:0,level:1,ratings:{strength:60,power:60,conditioning:60,mobility:60,shooting:60,ballHandling:60,finishing:60},plan:null,history:[],prs:{},badges:[],lastWorkoutDate:null,streak:0};
 let state=load();if(!localStorage.getItem('lorh-v9-fresh-reset')){const keepProfile=state.profile||defaultState.profile;state=structuredClone(defaultState);state.profile=keepProfile;localStorage.setItem('lorh-v9-fresh-reset','1');localStorage.setItem(KEY,JSON.stringify(state))}state.ratings={strength:60,power:60,conditioning:60,mobility:60,shooting:60,ballHandling:60,finishing:60,...state.ratings};state.skillHistory=state.skillHistory||[];state.missions=state.missions||{};state.skillTests=state.skillTests||{};state.attributeHistory=state.attributeHistory||[];state.lastRetestPrompt=state.lastRetestPrompt||{};state.achievementLog=state.achievementLog||[];state.weeklyBonusClaims=state.weeklyBonusClaims||{};state.flash=state.flash||{active:null,lastOffered:null,completed:[]};state.profile={name:'Player',title:'',bodyweight:'',dob:'',height:'',strengthExperience:'new',strengthPath:'auto',...state.profile};
 function load(){try{return {...defaultState,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{return structuredClone(defaultState)}}
 function userKey(uid){return KEY+'-user-'+uid}function save(){localStorage.setItem(KEY,JSON.stringify(state));if(cloudUser)localStorage.setItem(userKey(cloudUser.uid),JSON.stringify(state));render();queueCloudSave()}
