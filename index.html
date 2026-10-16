@@ -389,6 +389,10 @@ function openBaseline(){
  const box=$('#baselineRows');box.innerHTML=baselineTests.map((t,i)=>'<div class="exercise baselineRow" data-key="'+t.key+'" data-mode="'+t.mode+'"><strong>'+t.label+'</strong><label>Exercise</label><select class="baseName">'+t.options.map(x=>'<option>'+x+'</option>').join('')+'</select>'+(t.mode==='load'?'<div class="setRow"><div><label>Weight lb</label><input class="baseWeight" type="number" min="0" step="2.5"></div><div><label>Reps</label><input class="baseReps" type="number" min="1" max="12" placeholder="Enter reps"></div></div>':'<label>Max clean reps</label><input class="baseReps" type="number" min="1">')+'</div>').join('');openModal('#baselineModal')
 }
 const workoutTemplates=[
+{name:'Lower Body Recovery, Hips & Ankles',program:'Recovery Day Mobility',ex:[['Knee-to-Wall Ankle Rocks',2,10],['90/90 Hip Switches',2,8],['Half-Kneeling Hip Flexor Stretch',2,30],['Adductor Rockbacks',2,10],['Deep Squat Hold',3,20]]},
+{name:'Upper Body Recovery, Shoulders & Spine',program:'Recovery Day Mobility',ex:[['Cat-Cow',2,8],['Quadruped Thoracic Rotations',2,8],['Wall Slides',2,10],['Open Books',2,8],['Wall Shoulder Flexion Reach',2,8]]},
+{name:'Full Body Recovery, Restore & Reset',program:'Recovery Day Mobility',ex:[["World's Greatest Stretch",1,5],['90/90 Hip Switches',2,8],['Knee-to-Wall Ankle Rocks',2,10],['Deep Squat Hold',2,20],['Quadruped Thoracic Rotations',2,8],['Wall Slides',2,10]]},
+
 {name:'Strength Foundation',program:'Post-Injury Return + Weight Gain',ex:[['Goblet Squat',3,10],['DB Romanian Deadlift',3,10],['DB Bench Press',3,10],['1-Arm DB Row',3,10],['Split Squat',2,8],['Face Pull',3,12],['Dead Bug',3,10]]},
 {name:'Get Stronger',program:'Post-Injury Return + Weight Gain',ex:[['Trap Bar Deadlift',4,5],['Bulgarian Split Squat',3,8],['Incline DB Bench Press',3,8],['Lat Pulldown',3,10],['DB Shoulder Press',3,8],['Side Plank',3,30]]},
 {name:'Build Muscle & Size',program:'Post-Injury Return + Weight Gain',ex:[['Leg Press',3,12],['Hamstring Curl',3,12],['DB Bench Press',3,12],['Chest-Supported Row',3,12],['Lateral Raise',3,12],['Band Curl',3,15],['Dead Bug',3,10]]},
